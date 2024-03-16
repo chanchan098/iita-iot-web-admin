@@ -1,11 +1,11 @@
 /* eslint-disable no-case-declarations */
-import { propTypes } from '@/utils/propTypes'
-import { PropType } from 'vue'
-import { tableProps } from './props/crudProps'
-import { IColumn } from '@/components/common/types/tableCommon'
-import { ElButton, ElSwitch, ElTable, ElTableColumn, ElPopconfirm, ElTooltip, ElDivider, ElImage } from 'element-plus'
+import {propTypes} from '@/utils/propTypes'
+import {PropType} from 'vue'
+import {tableProps} from './props/crudProps'
+import {IColumn} from '@/components/common/types/tableCommon'
+import {ElButton, ElSwitch, ElTable, ElTableColumn, ElPopconfirm, ElTooltip, ElDivider, ElImage} from 'element-plus'
 import Pagination from '@/components/Pagination/index.vue'
-import { formatDate } from '@/utils/formatTime'
+import {formatDate} from '@/utils/formatTime'
 
 interface IScope {
   row: any
@@ -35,7 +35,7 @@ export default defineComponent({
     ...tableProps,
   },
   emits: ['handleView', 'handleUpdate', 'handleDelete', 'handleSelectionChange', 'changePage', 'rowClick', 'update:page', 'update:multipleSelection'],
-  setup(props, { emit, slots, expose }) {
+  setup(props, {emit, slots, expose}) {
     const tableRef = ref()
     // 渲染菜单
     const renderMenus = (scope: { row: any }) => {
@@ -49,13 +49,13 @@ export default defineComponent({
                   type="primary"
                   icon="View"
                   {...() => {
-                    if (props.viewPermi) return { vHasPermi: props.viewPermi }
+                    if (props.viewPermi) return {vHasPermi: props.viewPermi}
                     return {}
                   }}
                   onClick={() => emit('handleView', scope.row)}
                 />
               </ElTooltip>
-              <ElDivider direction="vertical" />
+              <ElDivider direction="vertical"/>
             </div>
           )}
           {props.editBtn && (
@@ -67,12 +67,12 @@ export default defineComponent({
                   icon="Edit"
                   onClick={() => emit('handleUpdate', scope.row)}
                   {...() => {
-                    if (props.editPermi) return { vHasPermi: props.editPermi }
+                    if (props.editPermi) return {vHasPermi: props.editPermi}
                     return {}
                   }}
                 />
               </ElTooltip>
-              <ElDivider direction="vertical" />
+              <ElDivider direction="vertical"/>
             </div>
           )}
           {props.delBtn && (
@@ -86,7 +86,7 @@ export default defineComponent({
                         type="danger"
                         icon="Delete"
                         {...() => {
-                          if (props.delPermi) return { vHasPermi: props.delPermi }
+                          if (props.delPermi) return {vHasPermi: props.delPermi}
                           return {}
                         }}
                       />
@@ -95,7 +95,7 @@ export default defineComponent({
                 </ElPopconfirm>
               </ElTooltip>
 
-              {props.menuSlot && <ElDivider direction="vertical" />}
+              {props.menuSlot && <ElDivider direction="vertical"/>}
             </div>
           )}
           {props.menuSlot}
@@ -116,7 +116,7 @@ export default defineComponent({
             case 'radio':
             case 'radioButton':
               if (!column.componentProps) return
-              const { options, labelAlias, valueAlias } = column.componentProps
+              const {options, labelAlias, valueAlias} = column.componentProps
               const labelName = labelAlias || 'label'
               const valueName = valueAlias || 'value'
               const obj = toRaw(options)?.find((f: any) => {
@@ -124,7 +124,7 @@ export default defineComponent({
               })
               return obj ? obj[labelName] : row[column.key]
             case 'switch':
-              return <ElSwitch value={scope?.row[column.key]} />
+              return <ElSwitch value={scope?.row[column.key]}/>
             case 'image':
               return (
                 <ElImage
@@ -181,6 +181,9 @@ export default defineComponent({
     //     ...pageObj,
     //   }
     // }
+    const getIndex = (index) => {
+      return (props.page.pageNum - 1) * props.page.pageSize + index + 1
+    }
     expose({
       tableRef,
     })
@@ -195,14 +198,14 @@ export default defineComponent({
             column-key={props.columnKey}
             onCurrent-change={rowClick}
           >
-            {props.selection && <ElTableColumn type="selection" width="55" align="center" />}
-            {props.index && <ElTableColumn type="index" width="55" align="center" label="序号" />}
+            {props.selection && <ElTableColumn type="selection" width="55" align="center"/>}
+            {props.index && <ElTableColumn type="index" width="55" align="center" label="序号" index={getIndex}/>}
             {props.column.map((m: IColumn) => {
               if (!m.hide) return renderColumn(m)
             })}
             {props.menu && (
               <ElTableColumn label="操作" align="center" width={props.menuWidth} class-name="small-padding fixed-width">
-                {{ default: (scope: { row: any }) => renderMenus(scope) }}
+                {{default: (scope: { row: any }) => renderMenus(scope)}}
               </ElTableColumn>
             )}
           </ElTable>
@@ -210,7 +213,8 @@ export default defineComponent({
           slots.customTable?.()
         )}
         {!props.pageHide && (
-          <Pagination total={props.total} v-model:page={pageObj.pageNum} v-model:limit={pageObj.pageSize} onPagination={changePage} />
+          <Pagination total={props.total} v-model:page={pageObj.pageNum} v-model:limit={pageObj.pageSize}
+                      onPagination={changePage}/>
         )}
       </div>
     )

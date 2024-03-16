@@ -18,11 +18,15 @@
       <el-button type="primary" plain icon="Refresh" @click="getData">刷新</el-button>
       <ElPopconfirm :title="`是否确认删除该${type === 'rule' ? '规则' : '任务'}所有日志？`" @confirm="handleDelete">
         <template #reference>
-          <el-button type="danger" plain icon="Delete" :disabled="false">{{ `删除该${type === 'rule' ? '规则' : '任务'}所有日志` }}</el-button>
+          <el-button type="danger" plain icon="Delete" :disabled="false">
+            {{ `删除该${type === 'rule' ? '规则' : '任务'}所有日志` }}
+          </el-button>
         </template>
       </ElPopconfirm>
     </div>
-    <yt-table v-if="dialog" :data="data" :total="state.total" :column="column" :menu="false" :selection="false">
+    <yt-table v-if="dialog" :data="data" :total="state.total" :column="column" :page="state.page" :menu="false"
+              :selection="false"
+              @change-page="changePage">
       <template #state="scope">
         {{ getStateName(scope.row.state) }}
       </template>
@@ -34,12 +38,13 @@
 </template>
 
 <script lang="ts" setup>
-import { propTypes } from '@/utils/propTypes'
-import { getRulesLog, clearRulesLog } from '../api/rule.api'
-import { getTaskLog, clearTaskLog } from '../api/scheduledTask.api'
+import {propTypes} from '@/utils/propTypes'
+import {getRulesLog, clearRulesLog} from '../api/rule.api'
+import {getTaskLog, clearTaskLog} from '../api/scheduledTask.api'
 
 import ytTable from '@/components/common/yt-table'
-import { IColumn } from '@/components/common/types/tableCommon'
+import {IColumn} from '@/components/common/types/tableCommon'
+
 const props = defineProps({
   type: propTypes.string.def('rule'),
   gutter: propTypes.number.def(12),
@@ -113,6 +118,13 @@ const getData = () => {
     .finally(() => {
       state.loading = false
     })
+}
+
+const changePage = (e) => {
+  console.log('changePage', e)
+  state.page.pageNum = e.pageNum
+  state.page.pageSize = e.pageSize
+  getData()
 }
 
 // 删除所有日志
