@@ -85,6 +85,11 @@ const handleUpdate = (row: any) => {
 }
 
 const submitThingModelChange = () => {
+  if (props.model) {
+      props.model.services = props.model.services || []
+      props.model.properties = props.model.properties || []
+      props.model.events = props.model.events || []
+  }
   saveObjectModel({
     productKey: props.id,
     model: JSON.stringify(props.model),

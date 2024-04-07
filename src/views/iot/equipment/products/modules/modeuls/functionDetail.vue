@@ -144,6 +144,11 @@ const newProperty = () => {
 }
 const { emitter } = useEmitt()
 const submitThingModelChange = () => {
+  if (state.model) {
+      state.model.services = state.model.services || []
+      state.model.properties = state.model.properties || []
+      state.model.events = state.model.events || []
+  }
   saveObjectModel({
     productKey: props.id,
     model: JSON.stringify(state.model),

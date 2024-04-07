@@ -57,6 +57,11 @@ const { emitter } = useEmitt({
 const getData = () => {
   getObjectModel(state.id).then(res => {
     const data = res.data || {}
+    if (data.model) {
+      data.model.services = data.model.services || []
+      data.model.properties = data.model.properties || []
+      data.model.events = data.model.events || []
+    }
     state.model = data.model || {
       services: [],
       properties: [],
