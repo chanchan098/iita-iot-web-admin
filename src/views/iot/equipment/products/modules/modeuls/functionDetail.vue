@@ -93,20 +93,15 @@ const rules = reactive({
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
   identifier: [{ required: true, message: '请输入标识符', trigger: 'blur' }],
 })
-watch(
-  () => props.model,
-  (newV) => {
-    state.model = newV
-  }
-)
+
 const modelFormRef = ref()
-const openDialog = (row?: any, props?: any) => {
+const openDialog = (row?: any, prop?: any) => {
   if (row) {
     state.modelForm = row
     state.isAdd = false
     state.modelType = row.model?.endsWith && row.model.endsWith('_default') ? '1' : '2'
-    if (props.enumItems) state.enumItems = props.enumItems
-    if (props.boolItem) state.boolItem = props.boolItem
+    if (prop.enumItems) state.enumItems = prop.enumItems
+    if (prop.boolItem) state.boolItem = prop.boolItem
   } else {
     state.isAdd = true
     state.modelForm = {
@@ -131,6 +126,7 @@ const openDialog = (row?: any, props?: any) => {
       },
     }
   }
+  state.model = props.model
   state.dialogShow = true
 }
 const cancelEdit = () => {
@@ -154,8 +150,9 @@ const submitThingModelChange = () => {
     model: JSON.stringify(state.model),
   }).then(() => {
     state.dialogShow = false
-    emitter.emit('updateObjectModel')
     cancelEdit()
+  }).finally(()=>{
+    emitter.emit('updateObjectModel')
   })
 }
 const propertyModelRef = ref()
