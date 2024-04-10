@@ -28,7 +28,7 @@
         </el-col>
         <el-col :span="6">
           <el-card class="box-card card4" shadow="never">
-            <div class="title">上报数据量</div>
+            <div class="title">物模型消息</div>
             <div class="text numbers">{{ statsData.reportTotal }}</div>
             <el-divider />
             <div class="increase">今日新增 <sup>↝ 0</sup></div>
@@ -44,7 +44,7 @@
               </div>
             </template>
             <div class="chart-device-num" ref="chartDeviceNumStat"></div>
-            <div style="position: absolute;left: 13%;top:50%;font-size: 30px;">11234</div>
+            <!-- <div style="position: absolute;left: 13%;top:50%;font-size: 30px;">{{ statsData.deviceTotal }}</div> -->
           </el-card>
         </el-col>
         <el-col :span="12">
@@ -59,7 +59,7 @@
                 <div class="chart-device-online" ref="chartDeviceOnline"></div>
                 <div class="dev-sub online">
                   在线设备<br />
-                  <p>80%</p>
+                  <!-- <p>80%</p> -->
                 </div>
               </el-col>
               <el-col :span="6">
@@ -98,6 +98,7 @@ import { PieChart, LineChart, GaugeChart } from 'echarts/charts'
 import { LabelLayout, UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import { stats } from '@/api/index'
+import { formatDate } from '@/utils/formatTime'
 
 echarts.use([
   TooltipComponent,
@@ -340,54 +341,67 @@ onMounted(() => {
       ],
     })
 
+    let xdata: string[] = []
+    let upData: string[] = []
+    let downData: string[] = []
+    res.data.deviceUpMessageStats.forEach(msg => {
+      xdata.push( formatDate(msg.time, 'YYYY-MM-DD HH:mm') ) 
+      upData.push(msg.data)
+    });
+
+    res.data.deviceDownMessageStats.forEach(msg => {
+      downData.push(msg.data)
+    });
+
+    // todo 后台没有返回下行消息量
+    echarts.init(chartMsgStat.value).setOption({
+        title: {},
+        tooltip: {
+          trigger: 'axis',
+        },
+        legend: {
+          data: ['上行消息量', '下行消息量'],
+          textStyle: {
+            fontWeight: 'bolder',
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+          },
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: xdata,
+        },
+        yAxis: {
+          type: 'value',
+        },
+        series: [
+          {
+            name: '上行消息量',
+            type: 'line',
+            stack: 'Total',
+            data: upData,
+          },
+          {
+            name: '下行消息量',
+            type: 'line',
+            stack: 'Total',
+            data: downData,
+          },
+        ],
+      })
   })
 
-  // todo 后台没有返回下行消息量
-  echarts.init(chartMsgStat.value).setOption({
-      title: {},
-      tooltip: {
-        trigger: 'axis',
-      },
-      legend: {
-        data: ['上行消息量', '下行消息量'],
-        textStyle: {
-          fontWeight: 'bolder',
-        },
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true,
-      },
-      toolbox: {
-        feature: {
-          saveAsImage: {},
-        },
-      },
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: ['02-01', '02-02', '02-03', '02-04', '02-05', '02-06', '02-07'],
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          name: '上行消息量',
-          type: 'line',
-          stack: 'Total',
-          data: [120, 132, 101, 134, 90, 230, 210],
-        },
-        {
-          name: '下行消息量',
-          type: 'line',
-          stack: 'Total',
-          data: [220, 182, 191, 234, 290, 330, 310],
-        },
-      ],
-    })
+  
 })
 </script>
 
