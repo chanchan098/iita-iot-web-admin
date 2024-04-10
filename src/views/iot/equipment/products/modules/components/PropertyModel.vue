@@ -80,7 +80,7 @@
           <el-row>
             <el-col :span="3"> 枚举值 </el-col>
             <el-col :span="3">
-              <el-input type="number" v-model="ei.value" placeholder="如:0" />
+              <el-input v-model="ei.value" placeholder="如:0" />
             </el-col>
             <el-col :span="2"> &nbsp; </el-col>
             <el-col :span="3"> 枚举描述 </el-col>

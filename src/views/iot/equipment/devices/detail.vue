@@ -52,7 +52,7 @@
           </el-table-column>
           <el-table-column prop="value" label="属性值">
             <template v-slot="scope">
-              <span>{{ scope.row.value }} &nbsp;</span>
+              <span>{{ scope.row.value }}{{ scope.row.unit }} &nbsp;</span>
               <el-button @click="showPropertyHistory(scope.row)" size="small">历史</el-button>
             </template>
           </el-table-column>
@@ -527,6 +527,7 @@ const fillProperty = (prop) => {
       value: prop[p.identifier]?.value ?? prop[p.identifier],
       occurred: prop[p.identifier]?.occurred ?? '',
       write: p.accessMode != 'r',
+      unit: p.unit ?? '',
     })
   })
   state.properties = props
