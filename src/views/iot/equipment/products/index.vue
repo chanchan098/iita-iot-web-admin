@@ -130,10 +130,16 @@ let cateOptions: any[] = []
 const getCateName = (id: string) => {
   return cateOptions.find((f) => f.id === id)?.name || ''
 }
+const keyMode = ref(import.meta.env.VITE_PRODUCT_KEY_MODE)
 const data = ref<IProductsVO[]>([])
 const randomString = (len: number) => {
   len = len || 32
   var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+  if(keyMode.value==='uppercase'){
+    $chars='ABCDEFGHJKMNPQRSTWXYZ2345678'
+  }else if(keyMode.value==='lowercase'){
+    $chars='abcdefhijkmnprstwxyz2345678'
+  }
   var maxPos = $chars.length
   var pwd = ''
   for (var i = 0; i < len; i++) {

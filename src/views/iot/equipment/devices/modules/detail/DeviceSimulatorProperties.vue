@@ -118,9 +118,24 @@ export default {
         let val = fun.value
         switch (fun.dataTypeName) {
           case 'int32':
+          if(val<fun.raw.dataType.specs.min||val>fun.raw.dataType.specs.max){            
+            ElMessage({
+                type: 'info',
+                message: '数据类型错误',
+              })
+              return
+            }
+            break
           case 'bool':
+            break
           case 'enum':
-            val = parseInt(val)
+          if (!(val in fun.raw.dataType.specs)) {
+            ElMessage({
+              type: 'info',
+              message: '数据类型错误',
+            })
+            return
+          }
             break
           case 'float':
             val = parseFloat(val)
@@ -155,14 +170,19 @@ export default {
     sendThingModelMsg() {
       let data = {}
       let hasValProperties = this.properties.filter((o) => o.value && o.value != '')
+      let flag=false
       hasValProperties.forEach((fun) => {
         if (fun.type == 'property') {
           let val = fun.value
           switch (fun.dataTypeName) {
             case 'int32':
+              break
             case 'bool':
+              break
             case 'enum':
-              val = parseInt(val)
+              if (!(val in fun.raw.dataType.specs)) {
+                flag=true
+              }
               break
             case 'float':
               val = parseFloat(val)
@@ -171,7 +191,13 @@ export default {
           data[fun.identifier] = val
         }
       })
-
+      if(flag){
+        ElMessage({
+              type: 'info',
+              message: '数据类型错误',
+            })
+        return
+      }
       deviceSimulateSend({
         deviceId: this.deviceDetail.deviceId,
         productKey: this.deviceDetail.productKey,

@@ -721,6 +721,13 @@ const sendDeviceMsg = (fun) => {
     let val = fun.value
     switch (fun.dataTypeName) {
       case 'int32':
+      if(val<fun.raw.dataType.specs.min||val>fun.raw.dataType.specs.max){            
+          ElMessage({
+              type: 'info',
+              message: '数据类型错误',
+            })
+          return
+        }
         break
       case 'bool':
         break
