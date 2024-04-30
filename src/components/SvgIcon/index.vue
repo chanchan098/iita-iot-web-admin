@@ -1,20 +1,33 @@
 <template>
-  <svg
+  <svg v-if="dataMode===DataModeEnum.LOCAL"
     :class="svgClass"
     aria-hidden="true"
     :style="{
       color: props.color,
     }"
+    :width="width" :height="height"
   >
     <use :xlink:href="iconName" :fill="color" />
+  </svg>
+  <svg v-else
+    :class="svgClass"
+    aria-hidden="true"
+    :style="{
+      color: props.color,
+    }"
+     :viewBox="viewBox" :version="version" :xmlns="xmlns" :width="width" :height="height"
+     v-html="path"
+  >
   </svg>
 </template>
 
 <script setup lang="ts">
+import { DataModeEnum } from '@/enums/DataModeEnum'
+import { PropType } from 'vue';
 const props = defineProps({
   iconClass: {
     type: String,
-    required: true
+    default: ''
   },
   className: {
     type: String,
@@ -24,6 +37,37 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  width: {
+    type: String,
+    default: '1em'
+  },
+  height: {
+    type: String,
+    default: '1em'
+  },
+  viewBox:{
+    type: String,
+    default: '0 0 100 100'
+  },
+  xmlns:{
+    type: String,
+    default: ''
+  },
+  version:{
+    type: String,
+    default: ''
+  },
+  pathData: {
+    type: String,
+    default: ''
+  },
+  dataMode: {
+      type: String as PropType<DataModeEnum>,
+      default: DataModeEnum.LOCAL,
+      validator: (value: string): boolean => {
+        return Object.values(DataModeEnum).includes(value as DataModeEnum);
+      }
+    }
 })
 const iconName =  computed(() => `#icon-${props.iconClass}`)
 const svgClass = computed(() => {
@@ -31,6 +75,9 @@ const svgClass = computed(() => {
     return `svg-icon ${props.className}`
   }
   return 'svg-icon'
+})
+const path = computed(() => {
+    return props.pathData.replace(/\\\\/g, "\\");
 })
 </script>
 
@@ -44,8 +91,6 @@ const svgClass = computed(() => {
 }
 
 .svg-icon {
-  width: 1em;
-  height: 1em;
   position: relative;
   fill: currentColor;
   vertical-align: -2px;

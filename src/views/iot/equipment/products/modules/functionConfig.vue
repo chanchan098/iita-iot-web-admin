@@ -17,6 +17,11 @@
         <template #dataType="{ row }">
           {{ row.raw?.dataType?.type || '-' }}
         </template>
+        <template #iconId="{ row }">
+          <svg-icon v-if="row.icon" color="var(--el-text-color-regular)" :dataMode="DataModeEnum.REMOTE" width="2em" height="2em" 
+          :viewBox="row.icon.viewBox" :xmlns="row.icon.xmlns" :version="row.icon.version" :pathData="row.icon.iconContent"/>
+          <span v-else>-</span>
+        </template>
       </yt-table>
     </yt-table-fun>
     <function-detail ref="functionDetailRef" :id="id" :model="model" />
@@ -31,6 +36,7 @@ import FunctionDetail from './modeuls/functionDetail.vue'
 import YtTableFun from '@/components/common/yt-table-fun.vue'
 import YtTable from '@/components/common/yt-table'
 import { useEmitt } from '@/hooks/web/useEmitt'
+import { DataModeEnum } from '@/enums/DataModeEnum'
 
 const { emitter } = useEmitt()
 
@@ -142,6 +148,11 @@ const column = ref<IColumn[]>([
     key: 'unit',
   },
   {
+    label: '图标',
+    key: 'iconId',
+    slot: true,
+  },
+  {
     label: '标识符',
     key: 'identifier',
   },
@@ -174,6 +185,8 @@ const getInfo = (model) => {
       identifier: p.identifier,
       description: p.description,
       unit: p.unit,
+      iconId: p.iconId,
+      icon: p.icon,
       dataTypeName: p.dataType.type,
       params: params == '{}' ? '' : params,
     })

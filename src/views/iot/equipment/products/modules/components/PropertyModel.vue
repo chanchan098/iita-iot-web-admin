@@ -7,11 +7,14 @@
       <el-form-item style="margin-bottom: 18px;" label="标识符" prop="identifier">
         <el-input :disabled="isUpdate" v-model="propertyRef.identifier" auto-complete="off" />
       </el-form-item>
-      <el-form-item style="margin-bottom: 18px;" label="描述" prop="describe">
+      <el-form-item style="margin-bottom: 18px;" label="描述">
         <el-input v-model="propertyRef.description" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item style="margin-bottom: 18px;" label="单位" prop="describe">
+      <el-form-item style="margin-bottom: 18px;" label="单位">
         <el-input v-model="propertyRef.unit" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item style="margin-bottom: 18px;" label="图标">
+        <icon-select v-model="propertyRef.iconId" :data="propertyRef.icon" width="210px" :dataMode="DataModeEnum.REMOTE"/>
       </el-form-item>
       <el-form-item style="margin-bottom: 18px;" label="数据类型" prop="dataType.type">
         <el-select v-model="propertyRef.dataType.type" placeholder="请选择数据类型">
@@ -112,6 +115,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { DataModeEnum } from '@/enums/DataModeEnum'
 const props = defineProps({
   property: {
     type: Object,

@@ -32,7 +32,9 @@
             <div class="text-box">
               <div class="title flex align-center">
                 <div class="icon">
-                  <svg-icon icon-class="cube" class="design-iconfont" />
+                  <svg-icon v-if="item.icon" color="var(--el-text-color-regular)" :dataMode="DataModeEnum.REMOTE" width="35" height="35" 
+                  :viewBox="item.icon.viewBox" :xmlns="item.icon.xmlns" :version="item.icon.version" :pathData="item.icon.iconContent"/>
+                  <svg-icon v-else icon-class="cube" class="design-iconfont" width="35" height="35" />
                 </div>
                 {{ item.name }}
               </div>
@@ -92,6 +94,12 @@
           </el-radio-button>
         </el-radio-group>
       </template>
+      <template #iconIdFormItem="{column, row}">
+        <el-form-item :label="column.label">
+              <!-- 图标选择器 -->
+              <icon-select v-model="row[column.key]" :data="row.icon" width="210px" :dataMode="DataModeEnum.REMOTE"/>
+        </el-form-item>
+      </template>
     </yt-crud>
     <object-model ref="objectModelRef" />
   </div>
@@ -103,9 +111,10 @@ import { IColumn } from '@/components/common/types/tableCommon'
 
 import ObjectModel from './modules/objectModel.vue'
 import YtCrud from '@/components/common/yt-crud.vue'
-import { getProductsList, saveProducts, IProductsVO, deleteProduct } from '../api/products.api'
+import { getProductsList, saveProducts, deleteProduct } from '../api/products.api'
 import { getCategoriesAll } from '../api/categories.api'
 import { ElDivider } from 'element-plus'
+import { DataModeEnum } from '@/enums/DataModeEnum'
 
 const crudRef = ref()
 const nodeTypeOptions = [
@@ -131,7 +140,7 @@ const getCateName = (id: string) => {
   return cateOptions.find((f) => f.id === id)?.name || ''
 }
 const keyMode = ref(import.meta.env.VITE_PRODUCT_KEY_MODE)
-const data = ref<IProductsVO[]>([])
+const data = ref<any[]>([])
 const randomString = (len: number) => {
   len = len || 32
   var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
@@ -264,6 +273,12 @@ const column = ref<IColumn[]>([
         },
       ],
     },
+  },
+  {
+    label: '产品图标',
+    key: 'iconId',
+    hide: true,
+    formItemSlot: true,
   },
   {
     label: '产品图片',
