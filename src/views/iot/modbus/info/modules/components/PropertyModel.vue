@@ -19,12 +19,12 @@
         <el-input-number v-model="propertyRef.regNum" auto-complete="off" style="width: 100%" min="0" step="1" step-strictly />
       </el-form-item>
       <el-form-item style="margin-bottom: 18px;" label="处理公式" prop="processor">
-        <el-select v-model="propertyRef.processor" placeholder="请选择处理公式" style="width: 100%">
-          <el-option v-for="item in processorOptions" :key="item.value" :label="item.value" :value="item.value"> </el-option>
-        </el-select>
+        <el-input v-model="propertyRef.processor"/>
       </el-form-item>
       <el-form-item style="margin-bottom: 18px;" label="数据顺序" prop="sort">
-        <el-input-number v-model="propertyRef.sort" auto-complete="off" style="width: 100%" step="1" step-strictly />
+        <el-select v-model="propertyRef.sort" placeholder="请选择处理公式" style="width: 100%">
+          <el-option v-for="item in sortOptions" :key="item.value" :label="item.value" :value="item.value"> </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item style="margin-bottom: 18px;" label="描述" prop="describe">
         <el-input v-model="propertyRef.description" auto-complete="off"></el-input>
@@ -189,7 +189,7 @@ const regTypeOptions = [
   },
 ]
 
-const processorOptions = [
+const sortOptions = [
   { value: 'AB',  },
   { value: 'BA',  },
   { value: 'AB CD',  },
