@@ -36,7 +36,7 @@
         <upload-file
           :fileType="['jar']"
           :limit="1"
-          :fileSize="100"
+          :fileSize="200"
           :params="uploadParam"
           @uploadSuccess="(res) => uploadJarSuccess(res, data)"
           uploadType="url"
