@@ -1,5 +1,4 @@
 import { UserConfig, ConfigEnv, loadEnv, defineConfig } from 'vite'
-
 import createPlugins from './vite/plugins'
 
 import path from 'path'
@@ -26,7 +25,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
       open: true,
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: 'http://127.0.0.1:8086',
+          target: 'http://192.168.0.241:8086',
           changeOrigin: true,
           rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
         },

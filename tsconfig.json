@@ -9,18 +9,26 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "jsxImportSource": "vue",
     "lib": ["esnext", "dom"],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "strictFunctionTypes": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vite/client"],
-    "skipLibCheck": true,
-    // 允许默认导入
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false
+    // TODO to be updated
+    "types": [      
+      "vite/client"
+    ],
+
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/types/**/*.d.ts"],
   "exclude": ["node_modules", "dist", "**/*.js"]
