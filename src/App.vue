@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider :locale="appStore.locale" :size="size">
+  <el-config-provider :locale="appStore.getLocal2" :size="size">
     <router-view />
   </el-config-provider>
 </template>
@@ -10,7 +10,7 @@ import { handleThemeStyle } from '@/utils/theme'
 import useAppStore from '@/store/modules/app'
 
 const appStore = useAppStore()
-const size = computed(() => appStore.size as any)
+const size = computed(() => appStore.getSize2 as any)
 
 onMounted(() => {
   nextTick(() => {

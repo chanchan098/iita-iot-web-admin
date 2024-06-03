@@ -67,9 +67,9 @@ onMounted(() => {
   })
 })
 
-const handleClickOutside = () => {
-  useAppStore().closeSideBar({ withoutAnimation: false })
-}
+// const handleClickOutside = () => {
+//   useAppStore().closeSideBar({ withoutAnimation: false })
+// }
 
 const setLayout = () => {
   settingRef.value.openSetting()

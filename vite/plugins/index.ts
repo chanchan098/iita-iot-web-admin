@@ -8,6 +8,7 @@ import createSvgIconsPlugin from './svg-icon'
 import createCompression from './compression'
 import createVueSetupExtend from './vue-setup-extend'
 import path from 'path'
+import { createStyleImportPlugin, ElementPlusResolve } from 'vite-plugin-style-import'
 
 export default (viteEnv: any, isBuild = false): [] => {
   const vitePlusgins: any = []
@@ -20,5 +21,22 @@ export default (viteEnv: any, isBuild = false): [] => {
   vitePlusgins.push(createIcons())
   vitePlusgins.push(createSvgIconsPlugin(path, isBuild))
   vitePlusgins.push(createVueSetupExtend())
+  // vitePlusgins.push(
+  //   createStyleImportPlugin({
+  //     resolves: [ElementPlusResolve()],
+  //     libs: [
+  //       {
+  //         libraryName: 'element-plus',
+  //         esModule: true,
+  //         resolveStyle: (name) => {
+  //           if (name === 'click-outside') {
+  //             return ''
+  //           }
+  //           return `element-plus/es/components/${name.replace(/^el-/, '')}/style/css`
+  //         }
+  //       }
+  //     ]
+  //   })
+  // )
   return vitePlusgins
 }

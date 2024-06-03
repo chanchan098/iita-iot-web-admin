@@ -26,7 +26,8 @@
     },
     // TODO to be updated
     "types": [      
-      "vite/client"
+      "vite/client",
+      "element-plus/global",
     ],
 
   },

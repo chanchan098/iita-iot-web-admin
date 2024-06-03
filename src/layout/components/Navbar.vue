@@ -4,13 +4,13 @@
       <div class="logo">
         <img src="@/assets/logo/logo.png" alt="" />
       </div>
-      <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+      <hamburger id="hamburger-container" :is-active="appStore.getSidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     </div>
     <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" /> -->
     <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
 
     <div class="right-menu flex align-center">
-      <template v-if="appStore.device !== 'mobile'">
+      <template v-if="appStore.getDevice !== 'mobile'">
         <el-select
           v-model="companyName"
           clearable

@@ -19,7 +19,7 @@
 import useAppStore from '@/store/modules/app'
 
 const appStore = useAppStore()
-const size = computed(() => appStore.size)
+const size = computed(() => appStore.getSize2)
 
 const sizeOptions = ref([
   { label: '较大', value: 'large' },
