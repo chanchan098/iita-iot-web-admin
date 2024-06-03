@@ -50,7 +50,7 @@
       <div class="avatar-container">
         <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
           <div class="avatar-wrapper">
-            <img :src="userStore.avatar" class="user-avatar" />
+            <img :src="userStore.getAvatar" class="user-avatar" />
             <el-icon><caret-bottom /></el-icon>
           </div>
           <template #dropdown>
@@ -87,7 +87,7 @@ const settingsStore = useSettingsStore()
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 
-const userId = ref(userStore.userId)
+const userId = ref(userStore.getUserId)
 const companyName = ref(undefined)
 const tenantList = ref<TenantVO[]>([])
 // 是否切换了租户

@@ -21,7 +21,7 @@ router.beforeEach(async (to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      if (useUserStore().roles.length === 0) {
+      if (useUserStore().getRoles.length === 0) {
         isRelogin.show = true
         // 判断当前用户是否已拉取完user_info信息
         const [err] = await tos(useUserStore().getInfo())

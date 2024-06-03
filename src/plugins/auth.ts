@@ -2,7 +2,7 @@ import useUserStore from '@/store/modules/user'
 
 const authPermission = (permission: string): boolean => {
   const all_permission = '*:*:*'
-  const permissions: string[] = useUserStore().permissions
+  const permissions: string[] = useUserStore().getPermissions
   if (permission && permission.length > 0) {
     return permissions.some((v) => {
       return all_permission === v || v === permission
@@ -14,7 +14,7 @@ const authPermission = (permission: string): boolean => {
 
 const authRole = (role: string): boolean => {
   const super_admin = 'admin'
-  const roles = useUserStore().roles
+  const roles = useUserStore().getRoles
   if (role && role.length > 0) {
     return roles.some((v) => {
       return super_admin === v || v === role

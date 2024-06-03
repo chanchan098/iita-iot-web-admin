@@ -7,7 +7,7 @@ import useUserStore from '@/store/modules/user'
  */
 export const checkPermi = (value: any) => {
   if (value && value instanceof Array && value.length > 0) {
-    const permissions = useUserStore().permissions
+    const permissions = useUserStore().getPermissions
     const permissionDatas = value
     const all_permission = '*:*:*'
 
@@ -32,7 +32,7 @@ export const checkPermi = (value: any) => {
  */
 export const checkRole = (value: any): boolean => {
   if (value && value instanceof Array && value.length > 0) {
-    const roles = useUserStore().roles
+    const roles = useUserStore().getRoles
     const permissionRoles = value
     const super_admin = 'admin'
 

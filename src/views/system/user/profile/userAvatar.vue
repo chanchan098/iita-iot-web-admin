@@ -98,13 +98,13 @@ const getFileName = (url: string) => {
 }
 //图片裁剪数据
 const options = reactive<Options>({
-  img: userStore.avatar,
+  img: userStore.getAvatar,
   autoCrop: true,
   autoCropWidth: 200,
   autoCropHeight: 200,
   fixedBox: true,
   outputType: 'png',
-  fileName: getFileName(userStore.avatar),
+  fileName: getFileName(userStore.getAvatar),
   previews: {},
   visible: false
 })
@@ -164,7 +164,7 @@ const realTime = (data: any) => {
 }
 /** 关闭窗口 */
 const closeDialog = () => {
-  options.img = userStore.avatar
+  options.img = userStore.getAvatar
   options.visible = false
 }
 </script>

@@ -6,23 +6,121 @@ import { login as loginApi, logout as logoutApi, getInfo as getUserInfo } from '
 import { LoginData } from '@/api/types'
 import { listByIds } from '@/api/system/oss'
 import  store  from '../index'
-// import { UserLoginType, UserType } from '@/api/login/types'
+import { UserLoginType, UserType } from '@/api/types'
 import { ElMessageBox } from 'element-plus'
-// import { useI18n } from '@/hooks/web/useI18n'
+import { useI18n } from '@/hooks/web/useI18n'
 // import { loginOutApi } from '@/api/login'
-// import { useTagsViewStore } from './tagsView'
+import { useTagsViewStore } from './tagsView'
 import router from '@/router'
 
-// interface UserState {
-//   userInfo?: UserType
-//   tokenKey: string
-//   token: string
-//   roleRouters?: string[] | AppCustomRouteRecordRaw[]
-//   rememberMe: boolean
-//   loginInfo?: UserLoginType
-// }
+interface UserState {
+  userInfo?: UserType
+  tokenKey: string
+  token: string
+  roleRouters?: string[] | AppCustomRouteRecordRaw[]
+  rememberMe: boolean
+  loginInfo?: UserLoginType
 
-export const useUserStore = defineStore('user', () => {
+  name: string
+  nickname: string
+  userId: string|number
+  avatar: string
+  roles: string[]
+  permissions: string[]
+}
+
+export const useUserStore = defineStore('user', {
+  state: (): UserState => {
+    return {
+      userInfo: undefined,
+      tokenKey: 'Authorization',
+      token: '',
+      roleRouters: undefined,
+      // 记住我
+      rememberMe: true,
+      loginInfo: undefined,
+
+      name: '',
+      nickname: '',
+      userId: '',
+      avatar: '',
+      roles: [],
+      permissions: []
+    }
+  },
+  getters: {
+    getName(): string{
+      return this.name
+    },
+    getNickname(): string{
+      return this.nickname
+    },
+    getUserId(): string|number{
+      return this.userId
+    },
+    getAvatar(): string{
+      return this.avatar
+    },
+    getRoles(): string[]{
+      return this.roles
+    },
+    getPermissions(): string[]{
+      return this.permissions
+    }
+  },
+  actions: {
+    async login (userInfo: LoginData): Promise<void>{
+      const [err, res] = await to(loginApi(userInfo))
+      if (res) {
+        const data = res.data
+        setToken(data.token)
+        this.token = data.token
+        return Promise.resolve()
+      }
+      return Promise.reject(err)
+    },
+    async getInfo(): Promise<void> {
+      const [err, res] = await to(getUserInfo())
+      if (res) {
+        const data = res.data
+        const user = data.user
+        const profile = user.avatar
+  
+        if (data.roles && data.roles.length > 0) {
+          // 验证返回的roles是否是一个非空数组
+          this.roles = data.roles
+          this.permissions = data.permissions
+        } else {
+          this.roles = ['ROLE_DEFAULT']
+        }
+        this.name = user.userName
+        this.nickname = user.nickName
+        if (profile) {
+          const ossObj = await listByIds(profile)
+          console.log('ossObj', ossObj)
+          if (ossObj.data) this.avatar = ossObj.data[0].url
+          console.log(this.avatar)
+        } else {
+          this.avatar = defAva
+        }
+        this.userId = user.id
+        return Promise.resolve()
+      }
+      return Promise.reject(err)
+    },
+  
+    async logout (): Promise<void> {
+      await logoutApi()
+      this.token = ''
+      this.roles = []
+      this.permissions = []
+      removeToken()
+    }
+  }
+
+})
+
+export const useUserStore2 = defineStore('user', () => {
   const token = ref(getToken())
   const name = ref('')
   const nickname = ref('')
