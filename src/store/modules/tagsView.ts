@@ -338,7 +338,8 @@ export const useTagsViewStore = defineStore('tagsView', {
         }
       }
     }
-  }
+  },
+  persist: false
 })
 
 export const useTagsViewStore2 = defineStore('tagsView', () => {

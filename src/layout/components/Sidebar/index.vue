@@ -35,7 +35,7 @@ const appStore = useAppStore()
 const settingsStore = useSettingsStore()
 const permissionStore = usePermissionStore()
 
-const sidebarRouters =  computed(() => permissionStore.sidebarRouters)
+const sidebarRouters =  computed(() => permissionStore.getSidebarRouters)
 const showLogo = computed(() => settingsStore.sidebarLogo)
 const sideTheme = computed(() => settingsStore.sideTheme)
 const theme = computed(() => settingsStore.theme)

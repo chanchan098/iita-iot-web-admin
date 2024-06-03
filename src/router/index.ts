@@ -24,6 +24,11 @@ import Layout from '@/layout/index.vue'
   }
  */
 
+export const constantRouterMap: AppRouteRecordRaw[] = []
+
+export const asyncRouterMap: AppRouteRecordRaw[] = []
+
+
 // 公共路由
 export const constantRoutes: RouteOption[] = [
   {

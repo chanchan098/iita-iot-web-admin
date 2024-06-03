@@ -36,7 +36,7 @@ const show = ref(false)
 const fuse = ref()
 const headerSearchSelectRef = ref(ElSelect)
 const router = useRouter()
-const routes = computed(() => usePermissionStore().routes)
+const routes = computed(() => usePermissionStore().getRoutes)
 
 const click = () => {
   show.value = !show.value

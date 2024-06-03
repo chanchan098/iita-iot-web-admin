@@ -12,7 +12,7 @@
       </el-scrollbar> -->
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar ref="navbarRef" @setLayout="setLayout" />
-        <tags-view v-if="needTagsView" />
+        <!-- <tags-view v-if="needTagsView" /> -->
       </div>
       <div class="layout-box">
         <side-bar v-if="!sidebar.hide" class="sidebar-container" />

@@ -37,13 +37,18 @@ import { useDict } from '@/utils/dict'
 import { getConfigKey, updateConfigByKey } from '@/api/system/config'
 import { parseTime, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
+// 引入状态管理
+import { setupStore } from '@/store'
 // 国际化
 import i18n from '@/lang/index'
 
 const setupAll = async () => {
     const app = createApp(App)
-    await setupI18n(app)
     
+    await setupI18n(app)
+
+    setupStore(app)
+
     // 全局方法挂载
     app.config.globalProperties.useDict = useDict
     app.config.globalProperties.getConfigKey = getConfigKey
@@ -58,7 +63,7 @@ const setupAll = async () => {
 
     app.use(ElementIcons)
     app.use(router)
-    app.use(store)
+    // app.use(store)
     app.use(i18n)
     app.use(plugins)
     // 自定义指令

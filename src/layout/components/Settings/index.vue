@@ -101,7 +101,7 @@ const topNav = computed({
     settingsStore.changeSetting({ key: SettingTypeEnum.TOP_NAV, value: val })
     if (!val) {
       appStore.toggleSideBarHide(false)
-      permissionStore.setSidebarRouters(permissionStore.defaultRoutes)
+      permissionStore.setSidebarRouters(permissionStore.getDefaultRoutes)
     }
   }
 })

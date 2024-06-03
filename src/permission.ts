@@ -31,7 +31,7 @@ router.beforeEach(async (to, from, next) => {
           next({ path: '/' })
         } else {
           isRelogin.show = false
-          const accessRoutes = await usePermissionStore().generateRoutes()
+          const accessRoutes = await usePermissionStore().generateRoutes2()
           // 根据roles权限生成可访问的路由表
           accessRoutes.forEach((route) => {
             if (!isHttp(route.path)) {
