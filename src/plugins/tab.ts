@@ -16,7 +16,7 @@ export default {
       })
     }
     // prettier-ignore
-    await useTagsViewStore().delCachedView(obj)
+    await useTagsViewStore().delCachedView2(obj)
     router.replace({
       path: '/redirect' + obj.path,
       query: obj.query,
@@ -24,7 +24,7 @@ export default {
   },
   // 关闭当前tab页签，打开新页签
   closeOpenPage(obj: RouteLocationRaw): void {
-    useTagsViewStore().delView(router.currentRoute.value)
+    useTagsViewStore().delView2(router.currentRoute.value)
     if (obj !== undefined) {
       router.push(obj)
     }
@@ -33,18 +33,18 @@ export default {
   async closePage(obj?: TagView): Promise<{ visitedViews: TagView[]; cachedViews: string[] } | any> {
     if (obj === undefined) {
       // prettier-ignore
-      const { visitedViews } = await useTagsViewStore().delView(router.currentRoute.value) as any
+      const { visitedViews } = await useTagsViewStore().delView2(router.currentRoute.value) as any
       const latestView = visitedViews.slice(-1)[0]
       if (latestView) {
         return router.push(latestView.fullPath)
       }
       return router.push('/')
     }
-    return useTagsViewStore().delView(obj)
+    return useTagsViewStore().delView2(obj)
   },
   // 关闭所有tab页签
   closeAllPage() {
-    return useTagsViewStore().delAllViews()
+    return useTagsViewStore().delAllViews2()
   },
   // 关闭左侧tab页签
   closeLeftPage(obj: TagView) {
@@ -56,7 +56,7 @@ export default {
   },
   // 关闭其他tab页签
   closeOtherPage(obj: TagView) {
-    return useTagsViewStore().delOthersViews(obj || router.currentRoute.value)
+    return useTagsViewStore().delOthersViews2(obj || router.currentRoute.value)
   },
   // 打开tab页签
   openPage(url: RouteLocationRaw) {
@@ -64,6 +64,6 @@ export default {
   },
   // 修改tab页签
   updatePage(obj: TagView) {
-    return useTagsViewStore().updateVisitedView(obj)
+    return useTagsViewStore().updateVisitedView2(obj)
   },
 }

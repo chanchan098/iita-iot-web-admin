@@ -66,6 +66,25 @@ export const useUserStore = defineStore('user', {
     },
     getPermissions(): string[]{
       return this.permissions
+    },
+
+    getTokenKey(): string {
+      return this.tokenKey
+    },
+    getToken(): string {
+      return this.token
+    },
+    getUserInfo(): UserType | undefined {
+      return this.userInfo
+    },
+    getRoleRouters(): string[] | AppCustomRouteRecordRaw[] | undefined {
+      return this.roleRouters
+    },
+    getRememberMe(): boolean {
+      return this.rememberMe
+    },
+    getLoginInfo(): UserLoginType | undefined {
+      return this.loginInfo
     }
   },
   actions: {
@@ -201,5 +220,8 @@ export const useUserStore2 = defineStore('user', () => {
 export default useUserStore
 // 非setup
 export function useUserStoreHook() {
+  return useUserStore(store)
+}
+export const useUserStoreWithOut = () => {
   return useUserStore(store)
 }

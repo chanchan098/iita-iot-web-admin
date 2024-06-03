@@ -31,7 +31,7 @@ const emitScroll = () => {
 }
 
 const tagsViewStore = useTagsViewStore()
-const visitedViews = computed(() => tagsViewStore.visitedViews)
+const visitedViews = computed(() => tagsViewStore.getVisitedViews2)
 
 const moveToTarget = (currentTag: TagView) => {
   const $container = scrollContainerRef.value.$el

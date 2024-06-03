@@ -49,7 +49,7 @@ const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const route = useRoute()
 const router = useRouter()
 
-const visitedViews = computed(() => useTagsViewStore().visitedViews)
+const visitedViews = computed(() => useTagsViewStore().getVisitedViews2)
 const routes = computed(() => usePermissionStore().routes)
 const theme = computed(() => useSettingsStore().theme)
 
@@ -119,14 +119,14 @@ const initTags = () => {
   for (const tag of res) {
     // Must have tag name
     if (tag.name) {
-      useTagsViewStore().addVisitedView(tag)
+      useTagsViewStore().addVisitedView2(tag)
     }
   }
 }
 const addTags = () => {
   const { name } = route
   if (name) {
-    useTagsViewStore().addView(route)
+    useTagsViewStore().addView2(route)
     if (route.meta.link) {
       useTagsViewStore().addIframeView(route)
     }
@@ -140,7 +140,7 @@ const moveToCurrentTag = () => {
         scrollPaneRef.value.moveToTarget(r)
         // when query is different then update
         if (r.fullPath !== route.fullPath) {
-          useTagsViewStore().updateVisitedView(route)
+          useTagsViewStore().updateVisitedView2(route)
         }
       }
     }

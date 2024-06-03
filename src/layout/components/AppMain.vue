@@ -6,7 +6,7 @@
         <router-view v-slot="{ Component, route }">
           <transition :enter-active-class="animante" mode="out-in">
             <div>
-              <keep-alive :include="tagsViewStore.cachedViews">
+              <keep-alive :include="tagsViewStore.getCachedViews2">
                 <component v-if="!route.meta.link" :is="Component" :key="route.path" />
               </keep-alive>
             </div>
