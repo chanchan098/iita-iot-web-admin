@@ -1,10 +1,26 @@
 import { to } from 'await-to-js'
 import defAva from '@/assets/images/profile.jpg'
-import store from '@/store'
+
 import { getToken, removeToken, setToken } from '@/utils/auth'
 import { login as loginApi, logout as logoutApi, getInfo as getUserInfo } from '@/api/login'
 import { LoginData } from '@/api/types'
 import { listByIds } from '@/api/system/oss'
+import  store  from '../index'
+// import { UserLoginType, UserType } from '@/api/login/types'
+import { ElMessageBox } from 'element-plus'
+// import { useI18n } from '@/hooks/web/useI18n'
+// import { loginOutApi } from '@/api/login'
+// import { useTagsViewStore } from './tagsView'
+import router from '@/router'
+
+// interface UserState {
+//   userInfo?: UserType
+//   tokenKey: string
+//   token: string
+//   roleRouters?: string[] | AppCustomRouteRecordRaw[]
+//   rememberMe: boolean
+//   loginInfo?: UserLoginType
+// }
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(getToken())
