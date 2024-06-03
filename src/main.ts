@@ -17,10 +17,14 @@ import BasicLayout from '@/components/YTLayout/basic-layout.vue'
 
 // 注册插件
 import plugins from './plugins/index' // plugins
+import { setupI18n } from '@/plugins/vueI18n'
 import { download } from '@/utils/request'
 
 // 预设动画
 import animate from './animate'
+
+// 引入全局样式
+import '@/styles/index.less'
 
 // svg图标
 import 'virtual:svg-icons-register'
@@ -36,28 +40,34 @@ import { parseTime, addDateRange, handleTree, selectDictLabel, selectDictLabels 
 // 国际化
 import i18n from '@/lang/index'
 
-const app = createApp(App)
-// 全局方法挂载
-app.config.globalProperties.useDict = useDict
-app.config.globalProperties.getConfigKey = getConfigKey
-app.config.globalProperties.updateConfigByKey = updateConfigByKey
-app.config.globalProperties.download = download
-app.config.globalProperties.parseTime = parseTime
-app.config.globalProperties.handleTree = handleTree
-app.config.globalProperties.addDateRange = addDateRange
-app.config.globalProperties.selectDictLabel = selectDictLabel
-app.config.globalProperties.selectDictLabels = selectDictLabels
-app.config.globalProperties.animate = animate
+const setupAll = async () => {
+    const app = createApp(App)
+    await setupI18n(app)
+    
+    // 全局方法挂载
+    app.config.globalProperties.useDict = useDict
+    app.config.globalProperties.getConfigKey = getConfigKey
+    app.config.globalProperties.updateConfigByKey = updateConfigByKey
+    app.config.globalProperties.download = download
+    app.config.globalProperties.parseTime = parseTime
+    app.config.globalProperties.handleTree = handleTree
+    app.config.globalProperties.addDateRange = addDateRange
+    app.config.globalProperties.selectDictLabel = selectDictLabel
+    app.config.globalProperties.selectDictLabels = selectDictLabels
+    app.config.globalProperties.animate = animate
 
-app.use(ElementIcons)
-app.use(router)
-app.use(store)
-app.use(i18n)
-app.use(plugins)
-// 自定义指令
-directive(app)
+    app.use(ElementIcons)
+    app.use(router)
+    app.use(store)
+    app.use(i18n)
+    app.use(plugins)
+    // 自定义指令
+    directive(app)
 
-// 自定义组件
-app.component('BasicLayout', BasicLayout)
+    // 自定义组件
+    app.component('BasicLayout', BasicLayout)
 
-app.mount('#app')
+    app.mount('#app')
+}
+
+setupAll()

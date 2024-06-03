@@ -26,6 +26,7 @@
     },
     // TODO to be updated
     "types": [      
+      "@intlify/unplugin-vue-i18n/types",
       "vite/client",
       "element-plus/global",
     ],
