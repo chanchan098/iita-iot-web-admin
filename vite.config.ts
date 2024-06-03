@@ -36,6 +36,10 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         scss: {
           javascriptEnabled: true,
         },
+        less: {
+          additionalData: '@import "./src/styles/variables.module.less";',
+          javascriptEnabled: true
+        }
       },
       postcss: {
         plugins: [
