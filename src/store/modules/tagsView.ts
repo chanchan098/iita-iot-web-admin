@@ -537,4 +537,7 @@ export const useTagsViewStore2 = defineStore('tagsView', () => {
   }
 })
 
+export const useTagsViewStoreWithOut = () => {
+  return useTagsViewStore(store)
+}
 export default useTagsViewStore
