@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import SideBar from './components/Sidebar/index.vue'
 import { AppMain, Navbar, Settings, TagsView } from './components'
-import useAppStore from '@/store/modules/app'
+import { useAppStore } from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 
 const settingsStore = useSettingsStore()

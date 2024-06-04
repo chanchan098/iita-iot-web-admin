@@ -1,7 +1,7 @@
 import zhCN from 'element-plus/es/locale/lang/zh-cn'
 import enUS from 'element-plus/es/locale/lang/en'
 
-import  store  from '../index'
+import { store } from '../index'
 
 import { setCssVar, humpToUnderline } from '@/utils'
 
@@ -491,4 +491,6 @@ export const useAppStore = defineStore('app', {
 //   }
 // })
 
-export default useAppStore
+export const useAppStoreWithOut = () => {
+  return useAppStore(store)
+}

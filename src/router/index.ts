@@ -1,6 +1,7 @@
 import { createWebHashHistory, createRouter, RouteOption } from 'vue-router'
 /* Layout */
 import Layout from '@/layout/index.vue'
+import LayoutNew from '@/layout-new/LayoutNew.vue'
 
 /**
  * Note: 路由配置项
@@ -77,7 +78,7 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '/user',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     redirect: 'noredirect',
     children: [
@@ -183,6 +184,16 @@ export const dynamicRoutes: RouteOption[] = [
     ],
   },
 ]
+
+
+export const resetRouter = (): void => {
+  // router.getRoutes().forEach((route) => {
+  //   const { name } = route
+  //   if (name && !NO_RESET_WHITE_LIST.includes(name as string)) {
+  //     router.hasRoute(name) && router.removeRoute(name)
+  //   }
+  // })
+}
 
 /**
  * 创建路由

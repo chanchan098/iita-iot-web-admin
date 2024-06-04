@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import useAppStore from '@/store/modules/app'
+import { useAppStore } from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
 import { getTenantList } from '@/api/login'

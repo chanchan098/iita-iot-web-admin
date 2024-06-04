@@ -401,6 +401,10 @@ export const setCssVar = (prop: string, val: any, dom = document.documentElement
   dom.style.setProperty(prop, val)
 }
 
+export const getCssVar = (prop: string, dom = document.documentElement) => {
+  return getComputedStyle(dom).getPropertyValue(prop)
+}
+
 /**
  *
  * @param component 需要注册的组件
@@ -453,4 +457,18 @@ export const copyValueToTarget = (target: any, source: any) => {
   })
   // 更新目标对象值
   Object.assign(target, newObj)
+}
+
+/**
+ * 驼峰转横杠
+ */
+export const humpToDash = (str: string): string => {
+  return str.replace(/([A-Z])/g, '-$1').toLowerCase()
+}
+
+/**
+ * 首字母大写
+ */
+export function firstUpperCase(str: string) {
+  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
 }

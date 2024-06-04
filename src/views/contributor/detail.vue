@@ -90,7 +90,7 @@
             <el-input v-model="formModel.title" placeholder="请输入标题" />
           </el-form-item>
           <el-form-item label="详情">
-            <editor v-model="formModel.context" :min-height="300" />
+            <editor-old v-model="formModel.context" :min-height="300" />
           </el-form-item>
         </div>
       </el-card>
