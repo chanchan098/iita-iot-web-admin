@@ -2,7 +2,7 @@
   <div class="navbar">
     <div class="flex align-center ml20">
       <div class="logo">
-        <img src="@/assets/logo/logo.png" alt="" />
+        <!-- <img src="@/assets/logo/logo.png" alt="" /> -->
       </div>
       <hamburger id="hamburger-container" :is-active="appStore.getSidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     </div>

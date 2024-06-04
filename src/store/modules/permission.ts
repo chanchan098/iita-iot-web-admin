@@ -130,8 +130,9 @@ export const usePermissionStore = defineStore('permission', {
     setSidebarRouters (routes: RouteOption[]): void {
       this.sidebarRouters = routes
     },
-    async generateRoutes2 (): Promise<RouteOption[]> {
+    async generateRoutes2(): Promise<RouteOption[]> {
       const res = await getRouters()
+      console.log("getRouters", res)
       const { data } = res
       const sdata = JSON.parse(JSON.stringify(data))
       const rdata = JSON.parse(JSON.stringify(data))

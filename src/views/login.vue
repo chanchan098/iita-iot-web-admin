@@ -10,7 +10,7 @@
     <div class="login-r">
       <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
         <h3 class="logo">
-          <img src="@/assets/logo/logo.png" alt="" />
+          <!-- <img src="@/assets/logo/logo.png" alt="" /> -->
         </h3>
         <div class="title">登录</div>
         <el-form-item prop="tenantId" v-if="tenantEnabled">
