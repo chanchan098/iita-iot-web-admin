@@ -28,7 +28,7 @@ const sizeOptions = ref([
 ])
 
 const handleSetSize = (size: string) => {
-  appStore.setSize(size)
+  appStore.setSize2(size)
 }
 </script>
 

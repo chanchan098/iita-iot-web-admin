@@ -1,7 +1,7 @@
 <template>
   <div class="app-box">
     <div style="padding: 16px;">
-      <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" />
+      <breadcrumb-old id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" />
       <section class="app-main">
         <router-view v-slot="{ Component, route }">
           <transition :enter-active-class="animante" mode="out-in">

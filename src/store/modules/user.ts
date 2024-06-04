@@ -88,6 +88,51 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
+    setTokenKey(tokenKey: string) {
+      this.tokenKey = tokenKey
+    },
+    setToken(token: string) {
+      this.token = token
+    },
+    setUserInfo(userInfo?: UserType) {
+      this.userInfo = userInfo
+    },
+    setRoleRouters(roleRouters: string[] | AppCustomRouteRecordRaw[]) {
+      this.roleRouters = roleRouters
+    },
+    logoutConfirm() {
+      // const { t } = useI18n()
+      // ElMessageBox.confirm(t('common.loginOutMessage'), t('common.reminder'), {
+      //   confirmButtonText: t('common.ok'),
+      //   cancelButtonText: t('common.cancel'),
+      //   type: 'warning'
+      // })
+      //   .then(async () => {
+      //     const res = await loginOutApi().catch(() => {})
+      //     if (res) {
+      //       this.reset()
+      //     }
+      //   })
+      //   .catch(() => {})
+    },
+    reset() {
+      const tagsViewStore = useTagsViewStore()
+      tagsViewStore.delAllViews()
+      this.setToken('')
+      this.setUserInfo(undefined)
+      this.setRoleRouters([])
+      router.replace('/login')
+    },
+    // logout() {
+    //   this.reset()
+    // },
+    setRememberMe(rememberMe: boolean) {
+      this.rememberMe = rememberMe
+    },
+    setLoginInfo(loginInfo: UserLoginType | undefined) {
+      this.loginInfo = loginInfo
+    },
+    // old
     async login (userInfo: LoginData): Promise<void>{
       const [err, res] = await to(loginApi(userInfo))
       if (res) {

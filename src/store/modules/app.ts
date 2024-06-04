@@ -230,6 +230,163 @@ export const useAppStore = defineStore('app', {
     }
   },
   actions: {
+    setBreadcrumb(breadcrumb: boolean) {
+      this.breadcrumb = breadcrumb
+    },
+    setBreadcrumbIcon(breadcrumbIcon: boolean) {
+      this.breadcrumbIcon = breadcrumbIcon
+    },
+    setCollapse(collapse: boolean) {
+      this.collapse = collapse
+    },
+    setUniqueOpened(uniqueOpened: boolean) {
+      this.uniqueOpened = uniqueOpened
+    },
+    setHamburger(hamburger: boolean) {
+      this.hamburger = hamburger
+    },
+    setScreenfull(screenfull: boolean) {
+      this.screenfull = screenfull
+    },
+    setSize(size: boolean) {
+      this.size = size
+    },
+    setLocale(locale: boolean) {
+      this.locale = locale
+    },
+    setTagsView(tagsView: boolean) {
+      this.tagsView = tagsView
+    },
+    setTagsViewIcon(tagsViewIcon: boolean) {
+      this.tagsViewIcon = tagsViewIcon
+    },
+    setLogo(logo: boolean) {
+      this.logo = logo
+    },
+    setFixedHeader(fixedHeader: boolean) {
+      this.fixedHeader = fixedHeader
+    },
+    setGreyMode(greyMode: boolean) {
+      this.greyMode = greyMode
+    },
+    setDynamicRouter(dynamicRouter: boolean) {
+      this.dynamicRouter = dynamicRouter
+    },
+    setServerDynamicRouter(serverDynamicRouter: boolean) {
+      this.serverDynamicRouter = serverDynamicRouter
+    },
+    setFixedMenu(fixedMenu: boolean) {
+      this.fixedMenu = fixedMenu
+    },
+    setPageLoading(pageLoading: boolean) {
+      this.pageLoading = pageLoading
+    },
+    setLayout(layout: LayoutType) {
+      if (this.mobile && layout !== 'classic') {
+        ElMessage.warning('移动端模式下不支持切换其它布局')
+        return
+      }
+      this.layout = layout
+    },
+    setTitle(title: string) {
+      this.title = title
+    },
+    setIsDark(isDark: boolean) {
+      this.isDark = isDark
+      if (this.isDark) {
+        document.documentElement.classList.add('dark')
+        document.documentElement.classList.remove('light')
+      } else {
+        document.documentElement.classList.add('light')
+        document.documentElement.classList.remove('dark')
+      }
+      this.setPrimaryLight()
+    },
+    setCurrentSize(currentSize: ComponentSize) {
+      this.currentSize = currentSize
+    },
+    setMobile(mobile: boolean) {
+      this.mobile = mobile
+    },
+    setTheme(theme: ThemeTypes) {
+      this.theme = Object.assign(this.theme, theme)
+    },
+    setCssVarTheme() {
+      for (const key in this.theme) {
+        setCssVar(`--${humpToUnderline(key)}`, this.theme[key])
+      }
+      this.setPrimaryLight()
+    },
+    setFooter(footer: boolean) {
+      this.footer = footer
+    },
+    setPrimaryLight() {
+      if (this.theme.elColorPrimary) {
+        const elColorPrimary = this.theme.elColorPrimary
+        const color = this.isDark ? '#000000' : '#ffffff'
+        const lightList = [3, 5, 7, 8, 9]
+        lightList.forEach((v) => {
+          setCssVar(`--el-color-primary-light-${v}`, mix(color, elColorPrimary, v / 10))
+        })
+        setCssVar(`--el-color-primary-dark-2`, mix(color, elColorPrimary, 0.2))
+      }
+    },
+    setMenuTheme(color: string) {
+      const primaryColor = useCssVar('--el-color-primary', document.documentElement)
+      const isDarkColor = colorIsDark(color)
+      const theme: Recordable = {
+        // 左侧菜单边框颜色
+        leftMenuBorderColor: isDarkColor ? 'inherit' : '#eee',
+        // 左侧菜单背景颜色
+        leftMenuBgColor: color,
+        // 左侧菜单浅色背景颜色
+        leftMenuBgLightColor: isDarkColor ? lighten(color!, 6) : color,
+        // 左侧菜单选中背景颜色
+        leftMenuBgActiveColor: isDarkColor
+          ? 'var(--el-color-primary)'
+          : hexToRGB(unref(primaryColor), 0.1),
+        // 左侧菜单收起选中背景颜色
+        leftMenuCollapseBgActiveColor: isDarkColor
+          ? 'var(--el-color-primary)'
+          : hexToRGB(unref(primaryColor), 0.1),
+        // 左侧菜单字体颜色
+        leftMenuTextColor: isDarkColor ? '#bfcbd9' : '#333',
+        // 左侧菜单选中字体颜色
+        leftMenuTextActiveColor: isDarkColor ? '#fff' : 'var(--el-color-primary)',
+        // logo字体颜色
+        logoTitleTextColor: isDarkColor ? '#fff' : 'inherit',
+        // logo边框颜色
+        logoBorderColor: isDarkColor ? color : '#eee'
+      }
+      this.setTheme(theme)
+      this.setCssVarTheme()
+    },
+    setHeaderTheme(color: string) {
+      const isDarkColor = colorIsDark(color)
+      const textColor = isDarkColor ? '#fff' : 'inherit'
+      const textHoverColor = isDarkColor ? lighten(color!, 6) : '#f6f6f6'
+      const topToolBorderColor = isDarkColor ? color : '#eee'
+      setCssVar('--top-header-bg-color', color)
+      setCssVar('--top-header-text-color', textColor)
+      setCssVar('--top-header-hover-color', textHoverColor)
+      this.setTheme({
+        topHeaderBgColor: color,
+        topHeaderTextColor: textColor,
+        topHeaderHoverColor: textHoverColor,
+        topToolBorderColor
+      })
+      if (this.getLayout === 'top') {
+        this.setMenuTheme(color)
+      }
+    },
+    initTheme() {
+      const isDark = useDark({
+        valueDark: 'dark',
+        valueLight: 'light'
+      })
+      isDark.value = this.getIsDark
+    },
+    // old
     toggleSideBar(withoutAnimation: boolean) {
       if (this.sidebar.hide) {
         return false
@@ -251,7 +408,7 @@ export const useAppStore = defineStore('app', {
     toggleDevice(d: string): void {
       this.device = d
     },
-    setSize(s: string): void {
+    setSize2(s: string): void {
       this.size2 = s
     },
     toggleSideBarHide(status: boolean): void {

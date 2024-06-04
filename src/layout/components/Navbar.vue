@@ -36,7 +36,7 @@
         </el-tooltip>
 
         <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-          <screenfull id="screenfull" class="right-menu-item hover-effect" />
+          <screenfull-old id="screenfull" class="right-menu-item hover-effect" />
         </el-tooltip>
 
         <!-- <el-tooltip :content="$t('navbar.language')" effect="dark" placement="bottom">
