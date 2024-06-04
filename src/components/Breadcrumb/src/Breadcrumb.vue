@@ -8,6 +8,7 @@ import { filter, treeToList } from '@/utils/tree'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Icon } from '@/components/Icon'
+import { useAppStoreWithOut } from '@/store/modules/app'
 import { useAppStore } from '@/store/modules/app'
 import { useDesign } from '@/hooks/web/useDesign'
 
@@ -15,7 +16,8 @@ const { getPrefixCls } = useDesign()
 
 const prefixCls = getPrefixCls('breadcrumb')
 
-const appStore = useAppStore()
+const appStore = useAppStoreWithOut()
+// const appStore = useAppStore()
 
 // 面包屑图标
 const breadcrumbIcon = computed(() => appStore.getBreadcrumbIcon)
