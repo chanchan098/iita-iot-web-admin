@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import router, { constantRoutes, dynamicRoutes } from '@/router'
-import store from '@/store'
+import { store } from '@/store'
 import { getRouters } from '@/api/menu'
 import Layout from '@/layout/index.vue'
 import ParentView from '@/components/ParentView/index.vue'

@@ -6,7 +6,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 
 // App、router、store
 import App from './App.vue'
-import store from './store'
+import { store } from './store'
 import router from './router'
 
 // 自定义指令

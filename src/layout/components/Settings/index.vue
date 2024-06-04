@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import { useDynamicTitle } from '@/utils/dynamicTitle'
-import useAppStore from '@/store/modules/app'
+import { useAppStore } from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
 import { handleThemeStyle } from '@/utils/theme'

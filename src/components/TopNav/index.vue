@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { constantRoutes } from '@/router'
 import { isHttp } from '@/utils/validate'
-import useAppStore from '@/store/modules/app'
+import { useAppStore } from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
 import { RouteOption } from 'vue-router'

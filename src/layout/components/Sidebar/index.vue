@@ -24,7 +24,7 @@
 import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
 import variables from '@/assets/styles/variables.module.scss'
-import useAppStore from '@/store/modules/app'
+import { useAppStore } from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
 import { ComponentInternalInstance } from 'vue'

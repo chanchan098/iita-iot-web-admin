@@ -11,5 +11,3 @@ export const setupStore = (app: App<Element>) => {
 }
 
 export { store }
-
-export default store 
