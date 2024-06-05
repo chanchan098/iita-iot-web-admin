@@ -7,11 +7,13 @@ import type {
 } from 'vue-router'
 import { isUrl } from '@/utils/is'
 import { omit, cloneDeep } from 'lodash-es'
+import { RouteMetaCustom } from '@/types/router'
+import cache from '@/plugins/cache'
 
 const modules = import.meta.glob('../views/**/*.{vue,tsx}')
 
 /* Layout */
-// export const Layout = () => import('@/layout/Layout.vue')
+export const LayoutNew = () => import('@/layout-new/LayoutNew.vue')
 
 export const getParentLayout = () => {
   return () =>
@@ -96,22 +98,41 @@ export const generateRoutesByServer = (routes: AppCustomRouteRecordRaw[]): AppRo
   const res: AppRouteRecordRaw[] = []
 
   for (const route of routes) {
-    const data: AppRouteRecordRaw = {
+    var data: AppRouteRecordRaw = {
       path: route.path,
       name: route.name,
       redirect: route.redirect,
-      meta: route.meta
+      meta: {}
     }
-    if (route.component) {
-      const comModule = modules[`../${route.component}.vue`] || modules[`../${route.component}.tsx`]
-      const component = route.component as string
-      if (!comModule && !component.includes('#')) {
-        console.error(`未找到${route.component}.vue文件或${route.component}.tsx文件，请创建`)
-      } else {
-        // 动态加载路由文件，可根据实际情况进行自定义逻辑
-        data.component =
-          component === '#' ? Layout : component.includes('##') ? getParentLayout() : comModule
+
+    
+    try{
+      var newMeta: RouteMetaCustom = {
+        hidden: false,
+        title: route.meta.title
       }
+      data.meta = newMeta
+      // console.log(newMeta)
+    } catch(e){
+      // console.log(e, route)
+    }
+
+    if (route.component) {
+      if (route.component === 'Layout') {
+        data.component = LayoutNew
+      } else if (route.component === 'ParentView') {
+        data.component = getParentLayout()
+      }  else {
+        data.component = loadView(route.component)
+      }
+      // const comModule = modules[`../${route.component}.vue`] || modules[`../${route.component}.tsx`]
+      // const component = route.component as string
+      // if (!comModule && !component.includes('#')) {
+      //   console.error(`未找到${route.component}.vue文件或${route.component}.tsx文件，请创建`)
+      // } else {
+      //   // 动态加载路由文件，可根据实际情况进行自定义逻辑
+      //   data.component = component === '#' ? Layout : component.includes('##') ? getParentLayout() : comModule
+      // }
     }
     // recursive child routes
     if (route.children) {
@@ -121,6 +142,18 @@ export const generateRoutesByServer = (routes: AppCustomRouteRecordRaw[]): AppRo
   }
   return res
 }
+
+export const loadView = (view: any) => {
+  let res
+  for (const path in modules) {
+    const dir = path.split('views/')[1].split('.vue')[0]
+    if (dir === view) {
+      res = () => modules[path]()
+    }
+  }
+  return res
+}
+
 
 export const pathResolve = (parentPath: string, path: string) => {
   if (isUrl(path)) return path

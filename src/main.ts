@@ -15,6 +15,9 @@ import directive from './directive'
 // 注册组件
 import BasicLayout from '@/components/YTLayout/basic-layout.vue'
 
+// 全局组件
+import { setupGlobCom } from '@/components'
+
 // 注册插件
 import plugins from './plugins/index' // plugins
 import { setupI18n } from '@/plugins/vueI18n'
@@ -48,6 +51,8 @@ const setupAll = async () => {
     await setupI18n(app)
 
     setupStore(app)
+
+    setupGlobCom(app)
 
     // 全局方法挂载
     app.config.globalProperties.useDict = useDict

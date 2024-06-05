@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import router, { constantRoutes, dynamicRoutes } from '@/router'
 import { store } from '@/store'
-import { getRouters } from '@/api/menu'
+import { getRouters, getRouters2 } from '@/api/menu'
 import Layout from '@/layout/index.vue'
 import ParentView from '@/components/ParentView/index.vue'
 import InnerLink from '@/layout/components/InnerLink/index.vue'
@@ -76,36 +76,31 @@ export const usePermissionStore = defineStore('permission', {
     }
   },
   actions: {
-    generateRoutes(
-      type: 'server' | 'frontEnd' | 'static',
-      routers?: AppCustomRouteRecordRaw[] | string[]
-    ): Promise<unknown> {
-      return new Promise<void>((resolve) => {
+    generateRoutes(): Promise<unknown> {
+      return new Promise<void>(async (resolve) => {
+
+        const res = await getRouters2()
+        const routers = res.data
+        
         let routerMap: AppRouteRecordRaw[] = []
-        if (type === 'server') {
-          // 模拟后端过滤菜单
-          routerMap = generateRoutesByServer(routers as AppCustomRouteRecordRaw[])
-          console.log(routerMap)
-        } else if (type === 'frontEnd') {
-          // 模拟前端过滤菜单
-          routerMap = generateRoutesByFrontEnd(cloneDeep(asyncRouterMap), routers as string[])
-        } else {
-          // 直接读取静态路由表
-          routerMap = cloneDeep(asyncRouterMap)
-        }
+       
+        routerMap = generateRoutesByServer(routers as AppCustomRouteRecordRaw[])
+        
+        this.routers = routerMap 
         // 动态路由，404一定要放到最后面
-        this.addRouters = routerMap.concat([
-          {
-            path: '/:path(.*)*',
-            redirect: '/404',
-            name: '404Page',
-            meta: {
-              hidden: true,
-              breadcrumb: false
-            }
-          }
-        ])
-        // 渲染菜单的所有路由
+        this.addRouters = routerMap
+        // .concat([
+        //   {
+        //     path: '/:path(.*)*',
+        //     redirect: '/404',
+        //     name: '404Page',
+        //     meta: {
+        //       hidden: true,
+        //       breadcrumb: false
+        //     }
+        //   }
+        // ])
+        // // 渲染菜单的所有路由
         this.routers = cloneDeep(constantRouterMap).concat(routerMap)
         resolve()
       })
@@ -148,6 +143,7 @@ export const usePermissionStore = defineStore('permission', {
       this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
       this.setDefaultRoutes(sidebarRoutes)
       this.setTopbarRoutes(defaultRoutes)
+      console.log("rewriteRoutes", rewriteRoutes)
       return new Promise<RouteOption[]>((resolve) => resolve(rewriteRoutes))
     },
   

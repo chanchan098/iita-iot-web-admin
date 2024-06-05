@@ -1,6 +1,6 @@
 import vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
-import createUnoCss from './unocss'
+import UnoCSS from 'unocss/vite'
 import createAutoImport from './auto-import'
 import createComponents from './components'
 import createIcons from './icons'
@@ -15,7 +15,7 @@ export default (viteEnv: any, isBuild = false): [] => {
   const vitePlusgins: any = []
   vitePlusgins.push(vue())
   vitePlusgins.push(VueJsx())
-  vitePlusgins.push(createUnoCss())
+  vitePlusgins.push(UnoCSS())
   vitePlusgins.push(createAutoImport(path))
   vitePlusgins.push(createComponents(path))
   vitePlusgins.push(createCompression(viteEnv))

@@ -9,3 +9,11 @@ export function getRouters(): AxiosPromise<RouteRecordRaw[]> {
     method: 'post',
   })
 }
+
+
+export function getRouters2(): AxiosPromise<AppCustomRouteRecordRaw[]> {
+  return request({
+    url: '/system/menu/getRouters',
+    method: 'post',
+  })
+}

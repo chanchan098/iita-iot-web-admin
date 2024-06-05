@@ -1,8 +1,10 @@
-import { createWebHashHistory, createRouter, RouteOption } from 'vue-router'
+import { createWebHashHistory, createRouter, RouteOption, RouteRecordRaw } from 'vue-router'
 /* Layout */
+import { useI18n } from '@/hooks/web/useI18n'
+
 import Layout from '@/layout/index.vue'
 import LayoutNew from '@/layout-new/LayoutNew.vue'
-
+const { t } = useI18n()
 /**
  * Note: 路由配置项
  *
@@ -25,7 +27,18 @@ import LayoutNew from '@/layout-new/LayoutNew.vue'
   }
  */
 
-export const constantRouterMap: AppRouteRecordRaw[] = []
+export const constantRouterMap: AppRouteRecordRaw[] = [
+  {
+    path: '/login',
+    component: () => import('@/views/login.vue'),
+    name: 'Login',
+    meta: {
+      hidden: true,
+      title: t('router.login'),
+      noTagsView: true
+    }
+  }
+]
 
 export const asyncRouterMap: AppRouteRecordRaw[] = []
 
@@ -34,7 +47,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = []
 export const constantRoutes: RouteOption[] = [
   {
     path: '/redirect',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     children: [
       {
@@ -65,7 +78,7 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '',
-    component: Layout,
+    component: LayoutNew,
     redirect: '/index',
     children: [
       {
@@ -96,7 +109,7 @@ export const constantRoutes: RouteOption[] = [
 export const dynamicRoutes: RouteOption[] = [
   {
     path: '/system/user-auth',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     permissions: ['system:user:edit'],
     children: [
@@ -116,7 +129,7 @@ export const dynamicRoutes: RouteOption[] = [
   },
   {
     path: '/contributor/',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     children: [
       {
@@ -129,7 +142,7 @@ export const dynamicRoutes: RouteOption[] = [
   },
   {
     path: '/system/role-auth',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     permissions: ['system:role:edit'],
     children: [
@@ -143,7 +156,7 @@ export const dynamicRoutes: RouteOption[] = [
   },
   {
     path: '/system/dict-data',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     permissions: ['system:dict:list'],
     children: [
@@ -157,7 +170,7 @@ export const dynamicRoutes: RouteOption[] = [
   },
   {
     path: '/system/oss-config',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     permissions: ['system:oss:list'],
     children: [
@@ -171,7 +184,7 @@ export const dynamicRoutes: RouteOption[] = [
   },
   {
     path: '/tool/gen-edit',
-    component: Layout,
+    component: LayoutNew,
     hidden: true,
     permissions: ['tool:gen:edit'],
     children: [
@@ -200,7 +213,8 @@ export const resetRouter = (): void => {
  */
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.VITE_APP_CONTEXT_PATH),
-  routes: constantRoutes,
+  routes: constantRouterMap  as RouteRecordRaw[],  
+  // routes: constantRoutes,
   // 刷新时，滚动条位置还原
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

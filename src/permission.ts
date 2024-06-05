@@ -7,20 +7,22 @@ import { isHttp } from '@/utils/validate'
 import { isRelogin } from '@/utils/request'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
-import usePermissionStore from '@/store/modules/permission'
+import { usePermissionStoreWithOut } from '@/store/modules/permission'
+import { RouteRecordRaw } from 'vue-router'
 
 NProgress.configure({ showSpinner: false })
 const whiteList = ['/login', '/register']
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
+  const permissionStore = usePermissionStoreWithOut()
   if (getToken()) {
     to.meta.title && useSettingsStore().setTitle(to.meta.title as string)
     /* has token*/
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done()
-    } else {
+    } else {            
       if (useUserStore().getRoles.length === 0) {
         isRelogin.show = true
         // 判断当前用户是否已拉取完user_info信息
@@ -31,12 +33,19 @@ router.beforeEach(async (to, from, next) => {
           next({ path: '/' })
         } else {
           isRelogin.show = false
-          const accessRoutes = await usePermissionStore().generateRoutes2()
+          // const accessRoutes = await usePermissionStore().generateRoutes2()
           // 根据roles权限生成可访问的路由表
-          accessRoutes.forEach((route) => {
+          // accessRoutes.forEach((route) => {
+          //   if (!isHttp(route.path)) {
+          //     console.log("add route", route.path)
+          //     router.addRoute(route) // 动态添加可访问路由表
+          //   }
+          // })
+          await permissionStore.generateRoutes()
+          permissionStore.getAddRouters.forEach((route) => {
             if (!isHttp(route.path)) {
-              console.log("add route", route.path)
-              router.addRoute(route) // 动态添加可访问路由表
+              console.log("add route ",route)
+              router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表
             }
           })
           next({ ...to, replace: true }) // hack方法 确保addRoutes已完成

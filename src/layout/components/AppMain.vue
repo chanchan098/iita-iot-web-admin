@@ -3,13 +3,12 @@
     <div style="padding: 16px;">
       <breadcrumb-old id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" />
       <section class="app-main">
+        <!-- <ParentView></ParentView> -->
         <router-view v-slot="{ Component, route }">
-          <transition :enter-active-class="animante" mode="out-in">
-            <div>
+          <transition :enter-active-class="animante" mode="out-in">            
               <keep-alive :include="tagsViewStore.getCachedViews2">
-                <component v-if="!route.meta.link" :is="Component" :key="route.path" />
-              </keep-alive>
-            </div>
+                <component v-if="!route.meta.link" :is="Component" :key="route.path" />               
+              </keep-alive>            
           </transition>
         </router-view>
         <iframe-toggle />
@@ -25,6 +24,7 @@ import IframeToggle  from './IframeToggle/index.vue'
 import { ComponentInternalInstance } from 'vue'
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const tagsViewStore = useTagsViewStore()
+// import ParentView from '../../components/ParentView/index.vue'
 
 // 随机动画集合
 const animante = ref<string>('')

@@ -99,6 +99,7 @@ export default defineComponent({
           {{
             default: () => {
               const { renderMenuItem } = useRenderMenuItem()
+              console.log("renderMenu", routers.value)
               return renderMenuItem(unref(routers))
             }
           }}

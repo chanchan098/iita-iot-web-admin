@@ -29,6 +29,7 @@
       "@intlify/unplugin-vue-i18n/types",
       "vite/client",
       "element-plus/global",
+      "vite-plugin-svg-icons/client"
     ],
 
   },

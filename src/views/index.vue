@@ -137,8 +137,8 @@ const statsData = ref({
 
 
 onMounted(() => {
-  document.getElementById('breadcrumb-container')!.style.display = 'none'
-
+  // document.getElementById('breadcrumb-container')!.style.display = 'none'
+  return
   stats().then((res) => {
     statsData.value = res.data
     console.log(statsData)
