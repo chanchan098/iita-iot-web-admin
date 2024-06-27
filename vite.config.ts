@@ -25,11 +25,23 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
       open: true,
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: 'http://192.168.0.243:8086',
+          target: 'http://192.168.0.241:8086',
           changeOrigin: true,
           rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
         },
       },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-chunks': ['vue', 'vue-router', 'pinia', 'vue-i18n'],
+            'element-plus': ['element-plus'],
+            'wang-editor': ['@wangeditor/editor', '@wangeditor/editor-for-vue'],
+            echarts: ['echarts', 'echarts-wordcloud']
+          }
+        }
+      }
     },
     css: {
       preprocessorOptions: {
@@ -99,8 +111,8 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         'element-plus/es/components/divider/style/css',
         'element-plus/es/components/card/style/css',
         'element-plus/es/components/link/style/css',
-        'element-plus/es/components/breadcrumb/style/css',
-        'element-plus/es/components/breadcrumb-item/style/css',
+        // 'element-plus/es/components/breadcrumb/style/css',
+        // 'element-plus/es/components/breadcrumb-item/style/css',
         'element-plus/es/components/table/style/css',
         'element-plus/es/components/tree-select/style/css',
         'element-plus/es/components/table-column/style/css',

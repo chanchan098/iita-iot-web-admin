@@ -29,6 +29,27 @@ const { t } = useI18n()
 
 export const constantRouterMap: AppRouteRecordRaw[] = [
   {
+    path: '/',
+    component: LayoutNew,
+    redirect: '/index',
+    name: 'Root',
+    meta: {
+      hidden: true
+    },
+    children: [
+      {
+        path: '/index',
+        component: () => import('@/views/index.vue'),
+        name: "Index",
+        meta: {
+          hidden: true,
+          title: t('router.dashboard'),
+          alwaysShow: true
+        }
+      }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('@/views/login.vue'),
     name: 'Login',
@@ -213,7 +234,7 @@ export const resetRouter = (): void => {
  */
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.VITE_APP_CONTEXT_PATH),
-  routes: constantRouterMap  as RouteRecordRaw[],  
+  routes: constantRouterMap as RouteRecordRaw[],
   // routes: constantRoutes,
   // 刷新时，滚动条位置还原
   scrollBehavior(to, from, savedPosition) {
